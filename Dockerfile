@@ -1,5 +1,5 @@
 # nginx 1.14
-FROM zercle:debian
+FROM zercle/docker-debian
 LABEL maintainer="Kawin Viriyaprasopsook <bouroo@gmail.com>"
 
 # Install nginx
