@@ -80,4 +80,4 @@ WORKDIR	/root
 
 EXPOSE	80 443
 
-CMD	["nginx"]
+CMD ["nginx", "-g", "daemon off;"]
