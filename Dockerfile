@@ -1,8 +1,8 @@
-# nginx 1.14
+# nginx 1.14.1
 FROM	zercle/docker-debian
 LABEL	maintainer="Kawin Viriyaprasopsook <bouroo@gmail.com>"
 
-ENV	NGX 1.14.0
+ENV	NGX 1.14.1
 
 # Install nginx
 RUN	wget http://nginx.org/keys/nginx_signing.key && apt-key add nginx_signing.key \
