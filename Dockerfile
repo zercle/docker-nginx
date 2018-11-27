@@ -3,6 +3,8 @@ FROM	zercle/docker-debian
 LABEL	maintainer="Kawin Viriyaprasopsook <bouroo@gmail.com>"
 
 ENV	NGX 1.14.1
+ENV	LUAJIT_LIB=/usr/lib/x86_64-linux-gnu
+ENV	LUAJIT_INC=/usr/include/luajit-2.0
 
 # Install nginx
 RUN	wget http://nginx.org/keys/nginx_signing.key && apt-key add nginx_signing.key \
@@ -24,6 +26,7 @@ RUN	apt-get -y build-dep nginx \
 		ffmpeg \
 		frei0r-plugins \
 		git \
+		liblua5.1-0-dev \
 		libluajit-5.1-dev \
 		libcurl4-openssl-dev \
 		libpam-dev \
@@ -60,7 +63,7 @@ RUN	git clone https://github.com/arut/nginx-rtmp-module.git \
 	&& git clone https://github.com/openresty/lua-nginx-module.git \
 	&& git clone https://github.com/SpiderLabs/ModSecurity-nginx
 
-WORKDIR	/tmp/nginx/nginx-1.14.0
+WORKDIR	/tmp/nginx/nginx-1.14.1
 RUN	./configure --with-compat \
 	--add-dynamic-module=../modules/ngx_devel_kit \
 	--add-dynamic-module=../modules/lua-nginx-module \
