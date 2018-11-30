@@ -73,7 +73,10 @@ RUN	./configure --with-compat \
 	&& make modules \
 	&& mkdir -p /etc/nginx/modules/ \
 	&& cp -u objs/*.so /etc/nginx/modules/ \
-	&& rm -rf /tmp/nginx
+	&& rm -rf /tmp/nginx \
+	&& mkdir -p /etc/nginx/modsec \
+	&& wget -O /etc/nginx/modsec/modsecurity.conf https://raw.githubusercontent.com/SpiderLabs/ModSecurity/v3/master/modsecurity.conf-recommended \
+	&& wget -O /etc/nginx/modsec/unicode.mapping https://raw.githubusercontent.com/SpiderLabs/ModSecurity/v3/master/unicode.mapping
 
 COPY	./files /
 
