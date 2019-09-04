@@ -1,8 +1,8 @@
-# nginx 1.16.0
+# nginx 1.16.1
 FROM	zercle/docker-debian
 LABEL	maintainer="Kawin Viriyaprasopsook <bouroo@gmail.com>"
 
-ENV	NGX 1.16.0
+ENV	NGX 1.16.1
 ENV	LUAJIT_LIB=/usr/lib/x86_64-linux-gnu
 ENV	LUAJIT_INC=/usr/include/luajit-2.0
 
@@ -63,7 +63,7 @@ RUN	git clone https://github.com/arut/nginx-rtmp-module.git \
 	&& git clone https://github.com/openresty/lua-nginx-module.git \
 	&& git clone https://github.com/SpiderLabs/ModSecurity-nginx
 
-WORKDIR	/tmp/nginx/nginx-1.16.0
+WORKDIR	/tmp/nginx/nginx-${NGX}
 RUN	./configure --with-compat \
 	--add-dynamic-module=../modules/ngx_devel_kit \
 	--add-dynamic-module=../modules/lua-nginx-module \
