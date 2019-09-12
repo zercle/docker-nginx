@@ -57,8 +57,7 @@ RUN	wget http://nginx.org/download/nginx-${NGX}.tar.gz \
 	&& tar -zxf nginx-${NGX}.tar.gz
 
 WORKDIR /tmp/nginx/modules
-RUN	git clone https://github.com/arut/nginx-rtmp-module.git \
-	&& git clone https://github.com/tg123/websockify-nginx-module.git \
+RUN	git clone https://github.com/tg123/websockify-nginx-module.git \
 	&& git clone https://github.com/simplresty/ngx_devel_kit.git \
 	&& git clone https://github.com/openresty/lua-nginx-module.git \
 	&& git clone https://github.com/SpiderLabs/ModSecurity-nginx
@@ -68,7 +67,6 @@ RUN	./configure --with-compat \
 	--add-dynamic-module=../modules/ngx_devel_kit \
 	--add-dynamic-module=../modules/lua-nginx-module \
 	--add-dynamic-module=../modules/websockify-nginx-module \
-	--add-dynamic-module=../modules/nginx-rtmp-module \
 	--add-dynamic-module=../modules/ModSecurity-nginx \
 	&& make modules \
 	&& mkdir -p /etc/nginx/modules/ \

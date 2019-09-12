@@ -16,4 +16,3 @@ This image add some modules that are necessary in most common use cases for runn
   - ngx_http_lua_module
   - ngx_http_modsecurity_module
   - ngx_http_websockify_module
-  - ngx_rtmp_module
