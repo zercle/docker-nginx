@@ -4,27 +4,27 @@ LABEL	maintainer="Kawin Viriyaprasopsook <bouroo@gmail.com>"
 
 ENV	NGX 1.16.1
 ENV	LUAJIT_LIB=/usr/lib/x86_64-linux-gnu
-ENV	LUAJIT_INC=/usr/include/luajit-2.0
+ENV	LUAJIT_INC=/usr/include/luajit-2.1
 
 # Install nginx
 RUN	wget http://nginx.org/keys/nginx_signing.key && apt-key add nginx_signing.key \
 	&& echo "deb http://nginx.org/packages/debian/ $(lsb_release -sc) nginx" > /etc/apt/sources.list.d/nginx.list \
 	&& echo "deb-src http://nginx.org/packages/debian/ $(lsb_release -sc) nginx" >> /etc/apt/sources.list.d/nginx.list \
 	&& apt-get update \
+	&& apt-get dist-upgrade -y \
 	&& apt-get -y install nginx \
 	&& apt-mark hold nginx \
 	&& openssl dhparam -dsaparam -out /etc/ssl/dhparam.pem 4096
 
 # Install build tools
 RUN	apt-get -y build-dep nginx \
+	&& apt-get -y build-dep luajit \
 	&& apt-get -y build-dep modsecurity-crs \
 	&& apt-get -y install \
 		autoconf \
 		automake \
 		build-essential \
 		dpkg-dev \
-		ffmpeg \
-		frei0r-plugins \
 		git \
 		liblua5.1-0-dev \
 		libluajit-5.1-dev \
@@ -39,31 +39,29 @@ RUN	apt-get -y build-dep nginx \
 	&& apt-get autoclean
 		
 # Install modsecurity library
-RUN	git clone --depth 1 -b v3/master --single-branch https://github.com/SpiderLabs/ModSecurity \
-	&& cd ModSecurity \
+RUN	cd /tmp && \
+	git clone --depth 1 -b v3/master --single-branch https://github.com/SpiderLabs/ModSecurity \
+	&& cd /tmp/ModSecurity \
 	&& git submodule init \
 	&& git submodule update \
 	&& ./build.sh \
 	&& ./configure \
 	&& make \
 	&& make install \
-	&& rm -rf ../ModSecurity
+	&& rm -rf /tmp/ModSecurity
 
 # Get nginx source
-RUN	mkdir -p /tmp/nginx/modules
-
-WORKDIR /tmp/nginx
-RUN	wget http://nginx.org/download/nginx-${NGX}.tar.gz \
-	&& tar -zxf nginx-${NGX}.tar.gz
-
-WORKDIR /tmp/nginx/modules
-RUN	git clone https://github.com/tg123/websockify-nginx-module.git \
+RUN	mkdir -p /tmp/nginx/modules \
+	&& cd /tmp/nginx \
+	&& wget http://nginx.org/download/nginx-${NGX}.tar.gz \
+	&& tar -zxf nginx-${NGX}.tar.gz \
+	&& cd /tmp/nginx/modules \
+	&& git clone https://github.com/tg123/websockify-nginx-module.git \
 	&& git clone https://github.com/simplresty/ngx_devel_kit.git \
 	&& git clone https://github.com/openresty/lua-nginx-module.git \
-	&& git clone https://github.com/SpiderLabs/ModSecurity-nginx
-
-WORKDIR	/tmp/nginx/nginx-${NGX}
-RUN	./configure --with-compat \
+	&& git clone https://github.com/SpiderLabs/ModSecurity-nginx \
+	&& cd /tmp/nginx/nginx-${NGX} \
+	&& ./configure --with-compat \
 	--add-dynamic-module=../modules/ngx_devel_kit \
 	--add-dynamic-module=../modules/lua-nginx-module \
 	--add-dynamic-module=../modules/websockify-nginx-module \
@@ -74,7 +72,8 @@ RUN	./configure --with-compat \
 	&& rm -rf /tmp/nginx \
 	&& mkdir -p /etc/nginx/modsec \
 	&& wget -O /etc/nginx/modsec/modsecurity.conf https://raw.githubusercontent.com/SpiderLabs/ModSecurity/v3/master/modsecurity.conf-recommended \
-	&& wget -O /etc/nginx/modsec/unicode.mapping https://raw.githubusercontent.com/SpiderLabs/ModSecurity/v3/master/unicode.mapping
+	&& wget -O /etc/nginx/modsec/unicode.mapping https://raw.githubusercontent.com/SpiderLabs/ModSecurity/v3/master/unicode.mapping \
+	&& rm -rf /tmp/*
 
 COPY	./files /
 
