@@ -62,7 +62,6 @@ RUN	mkdir -p /tmp/nginx/modules \
 	&& git clone https://github.com/SpiderLabs/ModSecurity-nginx \
 	&& cd /tmp/nginx/nginx-${NGX} \
 	&& ./configure --with-compat \
-	--without-lua_resty_core \
 	--add-dynamic-module=../modules/ngx_devel_kit \
 	--add-dynamic-module=../modules/lua-nginx-module \
 	--add-dynamic-module=../modules/websockify-nginx-module \
