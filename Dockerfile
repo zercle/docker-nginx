@@ -3,8 +3,6 @@ FROM	zercle/docker-debian
 LABEL	maintainer="Kawin Viriyaprasopsook <bouroo@gmail.com>"
 
 ENV	NGX 1.18.0
-ENV	LUAJIT_LIB=/usr/lib/x86_64-linux-gnu
-ENV	LUAJIT_INC=/usr/include/luajit-2.1
 
 # Install nginx
 RUN	wget http://nginx.org/keys/nginx_signing.key && apt-key add nginx_signing.key \
@@ -18,7 +16,6 @@ RUN	wget http://nginx.org/keys/nginx_signing.key && apt-key add nginx_signing.ke
 
 # Install build tools
 RUN	apt-get -y build-dep nginx \
-	&& apt-get -y build-dep luajit \
 	&& apt-get -y build-dep modsecurity-crs \
 	&& apt-get -y install \
 		autoconf \
@@ -26,15 +23,15 @@ RUN	apt-get -y build-dep nginx \
 		build-essential \
 		dpkg-dev \
 		git \
-		liblua5.1-0-dev \
-		libluajit-5.1-dev \
 		libcurl4-openssl-dev \
-		libpam-dev \
-		libpcre3 \
-		libpcre3-dev \
+		libgeoip-dev \
+		liblmdb-dev \
+		libpcre++-dev \
 		libssl-dev \
 		libtool \
 		libxml2-dev \
+		llibyajl-dev \
+		zlib1g-dev \
 		pkgconf \
 	&& apt-get autoclean
 		
@@ -56,15 +53,9 @@ RUN	mkdir -p /tmp/nginx/modules \
 	&& wget http://nginx.org/download/nginx-${NGX}.tar.gz \
 	&& tar -zxf nginx-${NGX}.tar.gz \
 	&& cd /tmp/nginx/modules \
-	&& git clone https://github.com/tg123/websockify-nginx-module.git \
-	&& git clone https://github.com/simplresty/ngx_devel_kit.git \
-	&& git clone https://github.com/openresty/lua-nginx-module.git \
 	&& git clone https://github.com/SpiderLabs/ModSecurity-nginx \
 	&& cd /tmp/nginx/nginx-${NGX} \
 	&& ./configure --with-compat \
-	--add-dynamic-module=../modules/ngx_devel_kit \
-	--add-dynamic-module=../modules/lua-nginx-module \
-	--add-dynamic-module=../modules/websockify-nginx-module \
 	--add-dynamic-module=../modules/ModSecurity-nginx \
 	&& make modules \
 	&& mkdir -p /etc/nginx/modules/ \
