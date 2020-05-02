@@ -12,7 +12,4 @@ nginx with basic packages base for other docker
 
 Based on the [Official Debian Docker image](https://hub.docker.com/r/_/debian/ "official image").
 This image add some modules that are necessary in most common use cases for running projects.
-  - modulesndk_http_module
-  - ngx_http_lua_module
   - ngx_http_modsecurity_module
-  - ngx_http_websockify_module
