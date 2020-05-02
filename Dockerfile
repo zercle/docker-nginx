@@ -30,7 +30,7 @@ RUN	apt-get -y build-dep nginx \
 		libssl-dev \
 		libtool \
 		libxml2-dev \
-		llibyajl-dev \
+		libyajl-dev \
 		zlib1g-dev \
 		pkgconf \
 	&& apt-get autoclean
