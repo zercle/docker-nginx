@@ -1,8 +1,8 @@
-# nginx 1.16.1
+# nginx 1.18.0
 FROM	zercle/docker-debian
 LABEL	maintainer="Kawin Viriyaprasopsook <bouroo@gmail.com>"
 
-ENV	NGX 1.16.1
+ENV	NGX 1.18.0
 ENV	LUAJIT_LIB=/usr/lib/x86_64-linux-gnu
 ENV	LUAJIT_INC=/usr/include/luajit-2.1
 
