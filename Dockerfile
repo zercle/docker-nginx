@@ -1,8 +1,8 @@
-# nginx 1.18.0
+# nginx 1.20.1
 FROM	zercle/docker-debian
-LABEL	maintainer="Kawin Viriyaprasopsook <bouroo@gmail.com>"
+LABEL	maintainer="Kawin Viriyaprasopsook <kawin.vir@zercle.tech>"
 
-ENV	NGX 1.18.0
+ENV	NGX 1.20.1
 
 # Install nginx
 RUN	wget http://nginx.org/keys/nginx_signing.key && apt-key add nginx_signing.key \
@@ -18,23 +18,23 @@ RUN	wget http://nginx.org/keys/nginx_signing.key && apt-key add nginx_signing.ke
 RUN	apt-get -y build-dep nginx \
 	&& apt-get -y build-dep modsecurity-crs \
 	&& apt-get -y install \
-		autoconf \
-		automake \
-		build-essential \
-		dpkg-dev \
-		git \
-		libcurl4-openssl-dev \
-		libgeoip-dev \
-		liblmdb-dev \
-		libpcre++-dev \
-		libssl-dev \
-		libtool \
-		libxml2-dev \
-		libyajl-dev \
-		zlib1g-dev \
-		pkgconf \
+	autoconf \
+	automake \
+	build-essential \
+	dpkg-dev \
+	git \
+	libcurl4-openssl-dev \
+	libgeoip-dev \
+	liblmdb-dev \
+	libpcre++-dev \
+	libssl-dev \
+	libtool \
+	libxml2-dev \
+	libyajl-dev \
+	zlib1g-dev \
+	pkgconf \
 	&& apt-get autoclean
-		
+
 # Install modsecurity library
 RUN	cd /tmp && \
 	git clone --depth 1 -b v3/master --single-branch https://github.com/SpiderLabs/ModSecurity \
